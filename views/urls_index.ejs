@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/_header') %>
+
+   <ul>
+    <% for (let url in urls) { %>
+      <li>
+     <%= url %> . . . <%= urls[url]%>
+
+     <!-- edit button -->
+     <a href="/urls/<%=url%>">Edit</a>
+
+     <!-- delete button -->
+     <form style="margin:5px;" method="POST" action=/urls/<%=url%>/delete>
+     <input type="submit" value="Delete"></form>
+      </li>
+
+    <% } %>
+  </ul>
+
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/_header') %>
+
+<h2>Here is your new url:</h2>
+<a href="<%= longURL %>"><%= newShortURL %></a><br>
+
+<!-- <h4>It will take you to:</h4>
+<a href="<%= longURL %>"><%= longURL %></a>
+ -->
+
+<h4>Update it here:</h4>
+<form method="POST" action=<%=`/urls/${newShortURL}`%>>
+<input  id="updateField" type="text" name="updateField" placeholder="<%= longURL %>" style="width: 300px" >
+<input type="submit" value="Update">
+</form>
+
+
+</body>
+</html>
