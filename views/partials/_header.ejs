@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Make a Tiny URL! It's Fun!</title>
+  <title>Make a Tiny URL!</title>
 </head>
 <body>
 
-<form action="/urls/login" method="POST" style="margin:150px;">
-  <label for="userName">Enter a username:</label>
-  <input id="userName" type="text" name="userName" placeholder="User" style="width:265px" >
-  <input type="submit" value="Submit">
-</form>
+<% if (typeof username == "undefined") { %>
+  <form action="/login" method="POST" style="margin:150px;">
+    <label for="username">Enter a username:</label>
+    <input id="username" type="text" name="username" placeholder="User" style="width:265px" >
+    <input type="submit" value="Submit">
+  </form>
+ <% } else { %>
+  <h4>Welcome <%= username %>!</h4>
+  <form action="/logout" method="POST" style="margin:10px;">
+      <input type="submit" value="Logout">
+  </form>
+<% } %>
 
 </body>
+</html>
+
+
+
+
