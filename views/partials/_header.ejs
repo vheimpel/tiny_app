@@ -5,14 +5,8 @@
 </head>
 <body>
 
-<form action="/login" method="POST" style="margin:150px;">
-  <label for="username">Enter a username:</label>
-  <input id="username" type="text" name="username" placeholder="User" style="width:265px" >
-  <input type="submit" value="Submit">
-</form>
 
-
-<!-- <% if (username = null) { %>
+<% if (!username) { %>
   <form action="/login" method="POST" style="margin:150px;">
     <label for="username">Enter a username:</label>
     <input id="username" type="text" name="username" placeholder="User" style="width:265px" >
@@ -21,9 +15,9 @@
  <% } else { %>
    <h4>Welcome <%= username %>!</h4>
    <form action="/logout" method="POST" style="margin:150px;">
-      <input type="logout" value="Logout">
+      <input type="submit" value="Logout">
    </form>
-<% } %> -->
+<% } %>
 
 </body>
 </html>
