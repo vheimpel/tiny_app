@@ -73,6 +73,15 @@ app.get("/u/:shortURL", (req, res) => {
   res.redirect(longURL);
 });
 
+app.post("/logout", (req, res) => {
+  let templateVars = {
+    username: req.body.username
+  }
+  const username = req.body.username;
+  res.clearCookie('username', username);
+  res.render("login", templateVars)
+})
+
 app.post("/urls", (req, res) => {
   // console.log(req.body.longURL);  // debug statement to see POST parameters
   let newShortUrl = generateRandomString();

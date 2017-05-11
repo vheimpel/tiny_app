@@ -5,19 +5,22 @@
 </head>
 <body>
 
-
-<% if (!username) { %>
+<% if (typeof username == "undefined") { %>
   <form action="/login" method="POST" style="margin:150px;">
     <label for="username">Enter a username:</label>
     <input id="username" type="text" name="username" placeholder="User" style="width:265px" >
     <input type="submit" value="Submit">
   </form>
  <% } else { %>
-   <h4>Welcome <%= username %>!</h4>
-   <form action="/logout" method="POST" style="margin:150px;">
+  <h4>Welcome <%= username %>!</h4>
+  <form action="/logout" method="POST" style="margin:10px;">
       <input type="submit" value="Logout">
-   </form>
+  </form>
 <% } %>
 
 </body>
 </html>
+
+
+
+
