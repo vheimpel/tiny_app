@@ -1,16 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Make a Tiny URL!</title>
-</head>
-<body>
 
-<!-- Modify your _header.ejs to display a "Register" link (pointing to the registration page) and a "Login" link (pointing to the login page) for users that are not logged in. -->
+
+<% if (user) { %>
+
+    <h4>Welcome <%= user.email %>!</h4>
+  <!-- logout button -->
+  <form action="/logout" method="POST" style="margin:10px;">
+      <input type="submit" value="Logout">
+  </form>
+
+ <% } else { %>
 
 <a href="/register">Register</a>&nbsp<a href="/login">Login</a>
 
-</body>
-</html>
+<% } %>
 
 
 

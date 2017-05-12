@@ -13,14 +13,6 @@ app.set("view engine", "ejs")
 var shortURL = "";
 var longURL = "";
 
-// const data = {
-//   users: [
-//     { username: 'monica', password: 'testing' },
-//     { username: 'khurram', password: 'testing2' },
-//     { username: 'juan', password: 'pwd'}
-//   ]
-// }
-
 const users = {
   "example": {
     id: "example",
@@ -59,15 +51,22 @@ function getUserById(id) {
 }
 
 app.get("/", (req, res) => {
-  res.render("urls_new");
+  let wholeUser = getUserById(req.cookies.user_id);
+  let templateVars = { user: wholeUser}
+  res.render("urls_new", templateVars);
 });
 
 app.get("/login", (req, res) => {
-  res.render("login")
+  let wholeUser = getUserById(req.cookies.user_id);
+  let templateVars = { user: wholeUser}
+  console.log(wholeUser)
+  res.render("login", templateVars)
 })
 
 app.get("/register", (req, res) => {
-  res.render("register")
+  let wholeUser = getUserById(req.cookies.user_id);
+  let templateVars = { user: wholeUser}
+  res.render("register", templateVars)
 })
 
 app.post("/register", (req, res) => {
@@ -96,13 +95,15 @@ app.post("/register", (req, res) => {
   console.log("Users object: ", users)
 
   res.cookie('user_id', users[userId].id);
-  res.redirect('/urls');
-})
+  res.redirect('/urls/new');
+});
+
 
 app.post("/login", (req, res) => {
-  const userEmail = req.body.email;
-  const userPassword = req.body.password;
-  if (userEmail === "" || userPassword === "") {
+  const userEmail = req.body.userEmail;
+  const userPassword = req.body.userPassword;
+  console.log(req.body)
+  if (userEmail === "" || typeof(userEmail) === "undefined"  || userPassword === "" || typeof(userPassword) === "undefined") {
     res.status(400)
     res.send("Please enter all information")
   }
@@ -110,16 +111,22 @@ app.post("/login", (req, res) => {
   for (var i in users) {
     if (users[i].email === userEmail) {
       if (users[i].password === userPassword) {
-
         res.cookie('user_id', users[i].id);
-        res.redirect("/urls");
+        res.redirect("/urls/new");
+        console.log("at line 110")
       }
     }
   }
-})
+
+  res.send("User not found")
+
+});
+
 
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  let wholeUser = getUserById(req.cookies.user_id);
+  let templateVars = { user: wholeUser}
+  res.render("urls_new", templateVars);
 });
 
 app.get("/urls.json", (req, res) => {
@@ -138,8 +145,10 @@ app.get("/urls", (req, res) => {
 });
 
 app.get("/u/:shortURL", (req, res) => {
+  let wholeUser = getUserById(req.cookies.user_id);
+  let templateVars = { user: wholeUser}
   let longURL = urlDatabase[req.params.shortURL]
-  res.redirect(longURL);
+  res.redirect(longURL, templateVars);
 });
 
 app.post("/logout", (req, res) => {
@@ -154,7 +163,12 @@ app.post("/urls", (req, res) => {
 });
 
 app.get("/urls/:id", (req, res) => {
-  let templateVars = { newShortURL: req.params.id, longURL: urlDatabase[req.params.id]};
+  let wholeUser = getUserById(req.cookies.user_id);
+  let templateVars = {
+    newShortURL: req.params.id,
+    longURL: urlDatabase[req.params.id],
+    user: wholeUser
+  };
   res.render("urls_show", templateVars);
 });
 
@@ -173,6 +187,3 @@ app.post('/urls/:shortURL', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
-
-
-
