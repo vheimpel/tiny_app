@@ -1,25 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Make a Tiny URL!</title>
-</head>
-<body>
 
-<% if (typeof username == "undefined") { %>
-  <form action="/login" method="POST" style="margin:150px;">
-    <label for="username">Enter a username:</label>
-    <input id="username" type="text" name="username" placeholder="User" style="width:265px" >
-    <input type="submit" value="Submit">
-  </form>
- <% } else { %>
-  <h4>Welcome <%= username %>!</h4>
+
+<% if (user) { %>
+
+    <h4>Welcome <%= user.email %>!</h4>
+  <!-- logout button -->
   <form action="/logout" method="POST" style="margin:10px;">
       <input type="submit" value="Logout">
   </form>
-<% } %>
 
-</body>
-</html>
+ <% } else { %>
+
+<a href="/register">Register</a>&nbsp<a href="/login">Login</a>
+
+<% } %>
 
 
 
