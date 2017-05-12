@@ -5,18 +5,9 @@
 </head>
 <body>
 
-<% if (typeof username == "undefined") { %>
-  <form action="/login" method="POST" style="margin:150px;">
-    <label for="username">Enter a username:</label>
-    <input id="username" type="text" name="username" placeholder="User" style="width:265px" >
-    <input type="submit" value="Submit">
-  </form>
- <% } else { %>
-  <h4>Welcome <%= username %>!</h4>
-  <form action="/logout" method="POST" style="margin:10px;">
-      <input type="submit" value="Logout">
-  </form>
-<% } %>
+<!-- Modify your _header.ejs to display a "Register" link (pointing to the registration page) and a "Login" link (pointing to the login page) for users that are not logged in. -->
+
+<a href="/register">Register</a>&nbsp<a href="/login">Login</a>
 
 </body>
 </html>
