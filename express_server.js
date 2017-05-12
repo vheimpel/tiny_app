@@ -22,8 +22,8 @@ var longURL = "";
 // }
 
 const users = {
-  "b5v67jexample": {
-    id: "b5v67jexample",
+  "example": {
+    id: "example",
     email: "hello@hello.com",
     password: "hey"
   }
@@ -52,14 +52,26 @@ app.get("/login", (req, res) => {
 })
 
 app.get("/register", (req, res) => {
-
   res.render("register")
 })
 
 app.post("/register", (req, res) => {
-  const userId = generateRandomString();
   const userEmail = req.body.email;
   const userPassword = req.body.password;
+  if (userEmail === "" || userPassword === "") {
+    res.status(400)
+    res.send("Please enter all information")
+  }
+
+  for (var i in users) {
+    if (users[i].email === userEmail) {
+      res.status(400)
+      res.send("User exists")
+    }
+  }
+
+  const userId = generateRandomString();
+
   const user = {
     id: userId,
     email: userEmail,
@@ -77,6 +89,22 @@ app.post("/login", (req, res) => {
     username: req.body.username
   }
   const username = req.body.username;
+
+  // const userEmail = req.body.email;
+  // const userPassword = req.body.password;
+  // if (userEmail === "" || userPassword === "") {
+  //   res.status(400)
+  //   res.send("Please enter all information")
+  // }
+
+  // for (var i in users) {
+  //   if (users[i].email === userEmail) {
+  //     if (users[i].password === userPassword) {
+
+  //     }
+  //   }
+  // }
+
   console.log("at line 57")
   res.cookie('username', username);
   res.render("urls_new", templateVars);
