@@ -5,11 +5,20 @@
 <h1>New page</h1>
 <!-- <body style="font-size:20px; padding:10px;"> -->
 
+<% if (user) { %>
+
   <form action="/urls" method="POST" style="margin:150px;">
     <label for="longURL">Enter a URL:</label>
     <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
     <input type="submit" value="Submit">
   </form>
+
+ <% } else { %>
+
+  Please register or login
+
+<% } %>
+
 
 </body>
 </html>

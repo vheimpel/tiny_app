@@ -7,13 +7,13 @@
    <ul>
     <% for (let url in urls) { %>
       <li>
-     <%= url %> . . . <%= urls[url]%>
+     <%= url %> . . . <%= urls[url].longURL%>
 
      <!-- edit button -->
      <a href="/urls/<%=url%>">Edit</a>
 
      <!-- delete button -->
-     <form style="margin:5px;" method="POST" action=/urls/<%=url%>/delete>
+     <form style="margin:5px;" method="POST" action=/urls/<%=urls[url].longURL%>/delete>
      <input type="submit" value="Delete"></form>
       </li>
 
