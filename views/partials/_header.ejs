@@ -1,25 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Make a Tiny URL!</title>
-</head>
-<body>
+<link rel="stylesheet" type="text/css" href="../styles.css">
+<link href="https://fonts.googleapis.com/css?family=Libre+Franklin|Varela+Round" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="path/to/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+<title>Tiny URL</title>
 
-<% if (typeof username == "undefined") { %>
-  <form action="/login" method="POST" style="margin:150px;">
-    <label for="username">Enter a username:</label>
-    <input id="username" type="text" name="username" placeholder="User" style="width:265px" >
-    <input type="submit" value="Submit">
+<% if (user) { %>
+
+  Welcome <%= user.email %>!
+  <!-- logout button -->
+  <form action="/logout" method="POST">
+      <input class="buttonSmall" type="submit" value="Logout">
   </form>
+
  <% } else { %>
-  <h4>Welcome <%= username %>!</h4>
-  <form action="/logout" method="POST" style="margin:10px;">
-      <input type="submit" value="Logout">
-  </form>
-<% } %>
 
-</body>
-</html>
+  <a href="/register">Register</a>&nbsp<a href="/login">Login</a>
+
+<% } %>
 
 
 

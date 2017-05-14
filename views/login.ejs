@@ -2,8 +2,19 @@
 <html lang="en">
 <% include partials/_header %>
 
-<h1>Welcome to tiny URL, where dreams come true</h1>
+<div class="wrapper">
+<h1>Login</h1>
 
+<form action="/login" method="POST">
+    <!-- <label for="email">Email</label><br> -->
+    <input class="textField" id="email" type="email" name="userEmail" placeholder="email"><br>
+
+    <!-- <label for="password">Password</label><br> -->
+    <input class="textField" id="password" type="password" name="userPassword" placeholder="password"><br>
+
+    <input class="button" type="submit" value="Submit">
+  </form>
+</div>
 
 </body>
 </html>
