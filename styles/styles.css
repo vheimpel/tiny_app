@@ -5,17 +5,8 @@ input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}b
 
 * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
-/*colours
-rgb(199, 0, 57) pink-red
-rgb(255, 87, 51) red-orange
-rgb(255, 195, 0) yellow
-rgb(28, 40, 51) slate
-rgb(230, 126, 34) orange
-rgb(218, 247, 166) mint*/
-
 /*font-family: 'Varela Round', sans-serif;
 font-family: 'Libre Franklin', sans-serif;*/
-
 
 a {
 	text-decoration: none;
@@ -94,11 +85,6 @@ form {
   text-decoration: none;
   margin: 0;
   padding: 0;
-  /*background: rgb(218, 247, 166);*/
- /* position: relative;*/
-  /*width: 200px;
-  height: 200px;*/
-  /*padding: 10px;*/
 }
 
 .button {
