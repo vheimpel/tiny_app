@@ -2,23 +2,25 @@
 <html lang="en">
 <% include partials/_header %>
 
-<h1>New page</h1>
-<!-- <body style="font-size:20px; padding:10px;"> -->
+<div class="wrapper">
+<h1>Make it tiny!</h1>
 
 <% if (user) { %>
 
-  <form action="/urls" method="POST" style="margin:150px;">
-    <label for="longURL">Enter a URL:</label>
-    <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
-    <input type="submit" value="Submit">
-  </form>
+  <form action="/urls" method="POST">
+    <label for="longURL">Enter a URL:</label><br>
+    <input class="textField" id="longURL" type="text" name="longURL" placeholder="http://"><br>
+    <input class="button" type="submit" value="Submit">
+  </form></p>
+
+  <a href="/urls">See my URLs</a>
 
  <% } else { %>
 
-  Please register or login
+  Please <a href="/register">register</a> or <a href="/login">login</a>
 
 <% } %>
 
-
+</div>
 </body>
 </html>

@@ -1,11 +1,16 @@
-
+<link rel="stylesheet" type="text/css" href="../styles.css">
+<link href="https://fonts.googleapis.com/css?family=Libre+Franklin|Varela+Round" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="path/to/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+<title>Tiny URL</title>
 
 <% if (user) { %>
 
   Welcome <%= user.email %>!
   <!-- logout button -->
-  <form action="/logout" method="POST" style="margin:2px;">
-      <input type="submit" value="Logout">
+  <form action="/logout" method="POST">
+      <input class="buttonSmall" type="submit" value="Logout">
   </form>
 
  <% } else { %>

@@ -2,19 +2,20 @@
 <html lang="en">
 <% include partials/_header %>
 
-<h1>Index Page</h1>
+<div class="wrapper">
+<h1>Your URLs</h1>
 
    <ul>
     <% for (let url in urls) { %>
       <li>
-     <%= url %> . . . <%= urls[url].longURL%>
+     <%= url %> &nbsp <i class="fa fa-angle-double-right" aria-hidden="true"></i> &nbsp <%= urls[url].longURL%>&nbsp
 
      <!-- edit button -->
      <a href="/urls/<%=url%>">Edit</a>
 
      <!-- delete button -->
-     <form style="margin:5px;" method="POST" action=/urls/<%=urls[url].longURL%>/delete>
-     <input type="submit" value="Delete"></form>
+     <form  method="POST" action=/urls/<%=url%>/delete>
+     <input class="buttonSmall" type="submit" value="Delete"></form></p>
       </li>
 
     <% } %>
@@ -22,6 +23,6 @@
 
   <a href="/urls/new">Shorten another URL</a>
 
-
+</div>
 </body>
 </html>
