@@ -6,35 +6,19 @@ var PORT = process.env.PORT || 8080; // default port 8080
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
-// const cookieParser = require('cookie-parser');
-// app.use(cookieParser());
-
 app.set("view engine", "ejs")
 
-const bcrypt = require('bcrypt');
-app.use(express.static(__dirname + '/styles'));
+const bcrypt = require("bcrypt");
+app.use(express.static(__dirname + "/styles"));
 
-var cookieSession = require('cookie-session')
+var cookieSession = require("cookie-session")
 app.use(cookieSession({
-  name: 'session',
+  name: "session",
   keys: ["iac", "cai"]
-
-  // Cookie Options
-  // maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }))
 
-const users = {
-  "hello": {
-    id: "hello",
-    email: "hello@hello.com",
-    password: "hey"
-  },
-  "bye": {
-    id: "bye",
-    email: "bye@bye.com",
-    password: "bye"
-  }
-}
+// Databases
+const users = {}
 
 var urlDatabase = {
   "b2xVn2": {
@@ -57,6 +41,7 @@ var urlDatabase = {
   }
 }
 
+// Functions
 function generateRandomString() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -65,20 +50,13 @@ function generateRandomString() {
   return text;
 }
 
-function getUserByEmail(email) {
-  for (var i in users) {
-    if (users[i].email === email) {
-      return users[i];
-    }
-  }
-}
-
 function getUserById(id) {
   for (var i in users) {
     if (users[i].id === id) {
       return users[i];
     }
   }
+  return "";
 }
 
 function getURLid(id) {
@@ -91,15 +69,25 @@ function getURLid(id) {
   return urlDatabaseFiltered;
 }
 
-function doesUserExist(userEmail) {
+function getUserByEmail(email) {
   for (var i in users) {
-        if (users[i].email === userEmail) {
-          return true;
-        }
-      }
-      return false;
+    if (users[i].email === email) {
+      return users[i];
     }
+  }
+  return "";
+}
 
+function doesUserExist(userEmail) {
+  for (var i in users) { // Iterates through user database
+    if (users[i].email === userEmail) { // Checks if the email in the user database matches the email entered
+      return true;
+    }
+  }
+  return false;
+}
+
+// Routes
 app.get("/", (req, res) => {
   let wholeUser = getUserById(req.session.user_id);
   let templateVars = {user: wholeUser}
@@ -110,6 +98,26 @@ app.get("/login", (req, res) => {
   let wholeUser = getUserById(req.session.user_id);
   let templateVars = { user: wholeUser}
   res.render("login", templateVars)
+});
+
+app.post("/login", (req, res) => {
+  const userEmail = req.body.userEmail;
+  const userPassword = req.body.userPassword;
+
+  if (userEmail === "" || typeof(userEmail) === "undefined"  || userPassword === "" || typeof(userPassword) === "undefined") {
+    res.status(400)
+    res.send("Please enter all information")
+    } else if (doesUserExist(userEmail)) {
+      let user = getUserByEmail(userEmail)
+      if (bcrypt.compareSync(userPassword, user.password)) {
+          req.session.user_id = user.id;
+          res.redirect("/urls/new");
+        } else {
+          res.send("Login info incorrect")
+        }
+  } else {
+    res.send("User not found")
+  }
 });
 
 app.get("/register", (req, res) => {
@@ -137,32 +145,8 @@ app.post("/register", (req, res) => {
       }
       users[userId] = user;
       req.session.user_id = users[userId].id;
-      res.redirect('/urls/new');
+      res.redirect("/urls/new");
   }
-});
-
-app.post("/login", (req, res) => {
-  const userEmail = req.body.userEmail;
-  const userPassword = req.body.userPassword;
-
-  if (userEmail === "" || typeof(userEmail) === "undefined"  || userPassword === "" || typeof(userPassword) === "undefined") {
-    res.status(400)
-    res.send("Please enter all information")
-  } else if (doesUserExist(userEmail)) {
-    let user = getUserByEmail(userEmail)
-    if (bcrypt.compareSync(userPassword, user.password)) {
-        req.session.user_id = user.id;
-        res.redirect("/urls/new");
-      }
-  } else {
-    res.send("User not found")
-}
-});
-
-app.get("/urls/new", (req, res) => {
-  let wholeUser = getUserById(req.session.user_id);
-  let templateVars = { user: wholeUser}
-  res.render("urls_new", templateVars);
 });
 
 app.get("/urls.json", (req, res) => {
@@ -175,16 +159,20 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", templateVars);
 });
 
-app.get("/u/:shortURL", (req, res) => {
+app.get("/urls/new", (req, res) => {
   let wholeUser = getUserById(req.session.user_id);
   let templateVars = { user: wholeUser}
-  let longURL = urlDatabase[req.params.shortURL]
-  res.redirect(longURL, templateVars);
+  res.render("urls_new", templateVars);
+});
+
+app.get("/u/:shortURL", (req, res) => {
+  let wholeUser = getUserById(req.session.user_id);
+  let longURL = urlDatabase[req.params.shortURL].longURL
+  res.redirect(longURL);
 });
 
 app.post("/logout", (req, res) => {
   req.session = null;
-  // res.clearCookie("user_id");
   res.redirect("/login");
 });
 
@@ -216,19 +204,19 @@ app.get("/urls/:id", (req, res) => {
 });
 
 //Delete endpoint
-app.post('/urls/:id/delete', (req, res) => {
+app.post("/urls/:id/delete", (req, res) => {
   delete urlDatabase[req.params.id];
-  res.redirect('/urls');
+  res.redirect("/urls");
 });
 
 //Update endpoint
-app.post('/urls/:shortURL', (req, res) => {
+app.post("/urls/:shortURL", (req, res) => {
   const id = req.params.shortURL;
   urlDatabase[id] = {
     longURL: req.body.updateField,
     userID: req.session.user_id
   }
-  res.redirect('/urls')
+  res.redirect("/urls")
 });
 
 app.listen(PORT, () => {
